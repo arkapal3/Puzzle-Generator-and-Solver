@@ -100,20 +100,20 @@ def generate_puzzle(table: List[List[str]], *,
     except_flag = True
     rules_for_relations = [
         (2, lambda j1, j2: j1 == j2, ['{0}:{1} == {2}:{3}', '{2}:{3} == {0}:{1}']),
-        (2, lambda j1, j2: j1 == j2 - 1, ['{0}:{1} is on the left of {2}:{3}']),
-        (2, lambda j1, j2: j1 == j2 + 1, ['{0}:{1} is on the right of {2}:{3}']),
+        (2, lambda j1, j2: j1 == j2 - 1, ['{0}:{1} is on the immediate left of {2}:{3}']),
+        (2, lambda j1, j2: j1 == j2 + 1, ['{0}:{1} is on the immediate right of {2}:{3}']),
         (1, lambda j1: j1 == 0, ['{0}:{1} is on the far left']),
         (1, lambda j1, last_index=m_objects - 1: j1 == last_index, ['{0}:{1} is on the far right']),
     ] + (m_objects % 2 != 0) * [(1, lambda j1, mid=center: j1 == mid, ['{0}:{1} is in the middle'])]
     if level >= 2:
         rules_for_relations += [
             (3, lambda j1, j2, j3: j2 + 1 == j1 == j3 - 1 or j3 + 1 == j1 == j2 - 1,
-             ['{0}:{1} is between {2}:{3} and {4}:{5}', '{0}:{1} is between {4}:{5} and {2}:{3}']),
+             ['{0}:{1} is immediately between {2}:{3} and {4}:{5}', '{0}:{1} is immediately between {4}:{5} and {2}:{3}']),
         ]
     if level >= 3:
         rules_for_relations += [
             (2, lambda j1, j2: j1 == j2 - 1 or j1 == j2 + 1,
-             ['{0}:{1} is on the left or right of {2}:{3}']),
+             ['{0}:{1} is on the immediate left or immediate right of {2}:{3}']),
             (1, lambda j1, last_index=m_objects - 1: j1 == 0 or j1 == last_index,
              ['{0}:{1} is on the far left or far right']),
         ]
@@ -139,8 +139,8 @@ def generate_puzzle(table: List[List[str]], *,
         ]
     if level >= 8:
         rules_for_relations += [
-            (2, lambda j1, j2: j1 >= j2, ['{0}:{1} is not to the left of {2}:{3}']),
-            (2, lambda j1, j2: j1 <= j2, ['{0}:{1} is not to the right of {2}:{3}']),
+            (2, lambda j1, j2: j1 >= j2, ['{0}:{1} is not anywhere to the left of {2}:{3}']),
+            (2, lambda j1, j2: j1 <= j2, ['{0}:{1} is not anywhere to the right of {2}:{3}']),
         ]
     if level >= 9:
         rules_for_relations += [
